@@ -1,1 +1,12 @@
-export const TAGS = ['Todo', 'Work', 'Personal', 'Meeting', 'Shopping'];
+export const TAGS = [
+  'Work',
+  'Personal',
+  'Meeting',
+  'Shopping',
+  'Ideas',
+  'Travel',
+  'Finance',
+  'Health',
+  'Important',
+  'Todo',
+];
