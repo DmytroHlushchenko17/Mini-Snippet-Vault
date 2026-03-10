@@ -5,7 +5,7 @@ import {
   dehydrate,
 } from '@tanstack/react-query';
 import { getNotes } from '@/lib/api';
-import { NoteTag } from '@/types/note';
+import { NoteTag, NoteType } from '@mini-snipped-vault/shared';
 import NotesClient from './Notes.client';
 import { Metadata } from 'next';
 
@@ -16,12 +16,13 @@ type Props = {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const tag = slug?.[0] === 'all' ? undefined : (slug?.[0] as NoteTag);
+  const type = slug?.[1] as NoteType | undefined;
   return {
-    title: `Note: ${tag ?? 'all'}`,
-    description: `Note for filter on ${tag ?? 'all'}`,
+    title: `Note: ${tag ?? 'all'}${type ? ` - ${type}` : ''}`,
+    description: `Note for filter on ${tag ?? 'all'}${type ? ` - ${type}` : ''}`,
     openGraph: {
-      title: `Note for filter on ${tag ?? 'all'}`,
-      description: `Note for filter on ${tag ?? 'all'}`,
+      title: `Note for filter on ${tag ?? 'all'}${type ? ` - ${type}` : ''}`,
+      description: `Note for filter on ${tag ?? 'all'}${type ? ` - ${type}` : ''}`,
       url: `'
       }`,
       images: [
@@ -39,17 +40,18 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 const NoteDetails = async ({ params }: Props) => {
   const { slug } = await params;
   const tag = slug?.[0] === 'all' ? undefined : (slug?.[0] as NoteTag);
+  const type = slug?.[1] as NoteType | undefined;
   const queryClient = new QueryClient();
 
   await queryClient.prefetchQuery({
-    queryKey: ['note', tag],
+    queryKey: ['note', tag, type],
     queryFn: () => getNotes(tag),
   });
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
       <div className={css.app}>
-        <NotesClient tag={tag} />
+        <NotesClient tag={tag} type={type} />
       </div>
     </HydrationBoundary>
   );

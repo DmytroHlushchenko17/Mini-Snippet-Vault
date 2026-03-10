@@ -9,4 +9,4 @@ export const TAGS = [
   'Health',
   'Important',
   'Todo',
-];
+] as const;

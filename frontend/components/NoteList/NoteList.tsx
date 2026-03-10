@@ -1,6 +1,6 @@
 'use client';
 import css from './NoteList.module.css';
-import type { Note } from '@/types/note';
+import type { Note } from '@mini-snipped-vault/shared';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'react-hot-toast';
 import { deleteNote } from '@/lib/api';
@@ -31,14 +31,16 @@ const NoteList = ({ notes }: NoteListProps) => {
     <ul className={css.list}>
       {notes.map((note) => (
         <li key={note.id} className={css.listItem}>
-          <Link href={`/notes/${note.id}`}>
+          <Link href={`/notes/${note.id}`} className={css.link}>
             <h2 className={css.title}>{note.title}</h2>
             <p className={css.content}>{note.content}</p>
           </Link>
 
           <div className={css.footer}>
-            <span className={css.tag}>{note.tag}</span>
-            <span className={css.type}>{note.type}</span>
+            <div className={css.meta}>
+              <span className={css.tag}>{note.tag}</span>
+              <span className={css.type}>{note.type}</span>
+            </div>
             <button
               className={css.button}
               onClick={() => deleteMutation.mutate(note.id)}

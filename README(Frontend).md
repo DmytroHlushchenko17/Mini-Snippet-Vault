@@ -1,6 +1,6 @@
 # Mini Snippet Vault - Frontend
 
-This is the client-side (frontend) of the Mini Snippet Vault app. It provides a web interface to seamlessly categorize, manage, and view code snippets.
+This is the client-side (frontend) of the Mini Snippet Vault app, located in the `frontend/` directory of the monorepo. It provides a web interface to seamlessly categorize, manage, and view code snippets.
 
 ## Tech Stack
 - **Next.js (App Router)**: React-based framework utilizing the modern App Router approach.
@@ -11,42 +11,48 @@ This is the client-side (frontend) of the Mini Snippet Vault app. It provides a 
 - **Axios**: HTTP client for communication with the backend.
 - **React-Hot-Toast**: Beautiful and simple toast notifications.
 - **React-Paginate**: Accessible pagination component.
+- **Shared Package (@mini-snipped-vault/shared)**: Common types and constants shared with the backend.
 
 ## Environment Variables
-The application looks for environment variables to communicate with the backend. Ensure your `.env` file (located in the project root) is properly set up. Example:
+The application looks for environment variables in the `frontend/.env` file. Example structure:
 ```env
-# .env.example
-PORT=
-BASE_URL=http://localhost:PORT
-MONGO_URL=
+PORT=3000
+NEXT_PUBLIC_BASE_URL=http://localhost:5000
 ```
-*(Note: If Next.js needs to expose these explicitly to the browser, they usually start with `NEXT_PUBLIC_`. Ensure your Axios configs point to the right backend URL).*
+*(Note: `NEXT_PUBLIC_BASE_URL` must point to the running backend server. The `NEXT_PUBLIC_` prefix is required for Next.js to expose the variable to the browser).*
 
 ## Running Locally
-1. Install project dependencies from the root directory:
-   ```bash
-   npm install
-   ```
-2. Start the development server (make sure you've also started the backend!):
-   ```bash
-   npm run dev
-   ```
-3. Open [http://localhost:PORT](http://localhost:PORT) (or the port your frontend is assigned to) in your browser.
+From the **root directory** of the monorepo, you can run:
+
+```bash
+# Install all dependencies (root, frontend, backend, shared)
+npm install
+
+# Build the shared package (required for types and constants)
+npm run build:shared
+
+# Start both frontend and backend development servers (uses concurrently)
+npm run dev
+
+# Or start only the frontend
+npm run dev:frontend
+```
 
 ## API Integration (Testing)
 The frontend communicates directly with the backend API (`/notes` endpoints). 
 To verify that everything connects correctly:
-1. Ensure your backend server is running simultaneously.
+1. Ensure your backend server is running (use `npm run dev` or `npm run dev:backend`).
 2. The UI natively triggers `GET` requests (via `react-query`) to load all notes upon visiting the main dashboard.
 3. You can test submissions simply by interacting with the forms on the web interface—they trigger `POST`, `PATCH`, and `DELETE` requests depending on the user interaction.
 
 ## Build and Run in Production
-To prepare the application for a production environment, you need to create an optimized bundle and launch the Next.js production server.
-1. Build the production application from the root directory:
+To prepare the application for a production environment:
+1. Build all packages from the root directory:
    ```bash
-   npm run build
+   npm run build --workspaces
    ```
-2. Once the build succeeds, start the server in production mode:
+2. Start the frontend server in production mode:
    ```bash
-   npm run start
+   npm run start:frontend
    ```
+

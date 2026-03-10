@@ -6,8 +6,9 @@ import { useRouter } from 'next/navigation';
 import { useNoteDraftStore } from '@/lib/store/noteStore';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
 
+import { TAGS, TYPES } from '@mini-snipped-vault/shared';
+
 const NoteForm = () => {
-  const NotesArray = ['Todo', 'Work', 'Personal', 'Meeting', 'Shopping'];
   const router = useRouter();
 
   const { draft, setDraft, clearDraft } = useNoteDraftStore();
@@ -68,9 +69,24 @@ const NoteForm = () => {
             defaultValue={draft?.tag}
             onChange={handleChange}
           >
-            {NotesArray.map((notes) => (
-              <option key={notes} value={notes}>
-                {notes}
+            {TAGS.map((tag) => (
+              <option key={tag} value={tag}>
+                {tag}
+              </option>
+            ))}
+          </select>
+        </label>
+        <label htmlFor="type">
+          Type
+          <select
+            name="type"
+            className={css.select}
+            defaultValue={draft?.type}
+            onChange={handleChange}
+          >
+            {TYPES.map((type) => (
+              <option key={type} value={type}>
+                {type}
               </option>
             ))}
           </select>

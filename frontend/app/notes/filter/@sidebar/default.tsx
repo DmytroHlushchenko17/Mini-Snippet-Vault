@@ -1,8 +1,9 @@
 import Link from 'next/link';
 import css from './SideBar.module.css';
+import { TAGS } from '@mini-snipped-vault/shared';
 
 export default async function SideBar() {
-  const tags = ['Work', 'Personal', 'Meeting', 'Shopping', 'Todo'];
+  const tags = TAGS;
 
   return (
     <ul className={css.menuList}>

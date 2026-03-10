@@ -12,7 +12,8 @@ import type {
   FetchNotesParams,
   FetchNotesResponse,
   NoteTag,
-} from '@/types/note';
+  NoteType,
+} from '@mini-snipped-vault/shared';
 import NoteList from '@/components/NoteList/NoteList';
 import Link from 'next/link';
 
@@ -20,9 +21,10 @@ const PER_PAGE = 12;
 
 type Props = {
   tag?: NoteTag;
+  type?: NoteType;
 };
 
-export default function NotesClient({ tag }: Props) {
+export default function NotesClient({ tag, type }: Props) {
   const [search, setSearch] = useState('');
   const [debouncedSearchQuery] = useDebounce(search, 500);
   const [page, setPage] = useState(1);
@@ -32,6 +34,7 @@ export default function NotesClient({ tag }: Props) {
     perPage: PER_PAGE,
     search: debouncedSearchQuery,
     tag,
+    type,
   };
 
   const { data, isPending, isError } = useQuery<FetchNotesResponse>({

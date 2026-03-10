@@ -1,6 +1,6 @@
 import { Joi, Segments } from 'celebrate';
 import { isValidObjectId } from 'mongoose';
-import { TAGS } from '../constants/tags.js';
+import { TAGS, TYPES } from '@mini-snipped-vault/shared';
 
 const objectIdValidator = (value, helpers) => {
   return !isValidObjectId(value) ? helpers.message('Invalid id format') : value;
@@ -22,6 +22,11 @@ export const createNoteSchema = {
       .messages({
         'any.only':
           'Tag must be one of: Work, Personal, Meeting, Shopping, Ideas, Travel, Finance, Health, Important, Todo',
+      }),
+    type: Joi.string()
+      .valid(...TYPES)
+      .messages({
+        'any.only': 'Type must be one of: note, link, command',
       }),
   }),
 };
@@ -51,6 +56,11 @@ export const updateNoteSchema = {
         'any.only':
           'Tag must be one of: Work, Personal, Meeting, Shopping, Ideas, Travel, Finance, Health, Important, Todo',
       }),
+    type: Joi.string()
+      .valid(...TYPES)
+      .messages({
+        'any.only': 'Type must be one of: note, link, command',
+      }),
   }).min(1),
 };
 
@@ -59,6 +69,7 @@ export const getAllNotesSchema = {
     page: Joi.number().integer().min(1).default(1),
     perPage: Joi.number().integer().min(5).max(20).default(10),
     tag: Joi.string().valid(...TAGS),
+    type: Joi.string().valid(...TYPES),
     search: Joi.string().trim().allow(''),
   }),
 };

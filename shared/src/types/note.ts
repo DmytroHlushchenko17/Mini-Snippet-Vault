@@ -1,5 +1,8 @@
-export type NoteTag = 'Todo' | 'Work' | 'Personal' | 'Meeting' | 'Shopping';
-export type NoteType = 'link' | 'note' | 'command';
+import { TAGS } from '../constants/tags.js';
+import { TYPES } from '../constants/noteTypes.js';
+
+export type NoteTag = (typeof TAGS)[number];
+export type NoteType = (typeof TYPES)[number];
 
 export interface Note {
   id: string;
@@ -16,6 +19,7 @@ export interface FetchNotesParams {
   perPage?: number;
   search?: string;
   tag?: NoteTag;
+  type?: NoteType;
 }
 
 export interface FetchNotesResponse {

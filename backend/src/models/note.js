@@ -1,6 +1,6 @@
 import { Schema } from 'mongoose';
 import { model } from 'mongoose';
-import { TAGS } from '../constants/tags.js';
+import { TAGS, TYPES } from '@mini-snipped-vault/shared';
 
 const noteSchema = new Schema(
   {
@@ -19,10 +19,24 @@ const noteSchema = new Schema(
       enum: TAGS,
       default: 'Todo',
     },
+    type: {
+      type: String,
+      enum: TYPES,
+      default: 'note',
+    },
   },
   {
     versionKey: false,
     timestamps: true,
+    toJSON: {
+      virtuals: true,
+      id: true,
+      transform: (doc, ret) => {
+        delete ret._id;
+        delete ret.__v;
+        return ret;
+      },
+    },
   },
 );
 
