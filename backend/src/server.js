@@ -10,7 +10,7 @@ import { logger } from './middleware/logger.js';
 import notesRouter from './routes/notesRoutes.js';
 import { errors } from 'celebrate';
 
-dns.setServers(['1.1.1.1', '8.8.8.8']);
+// dns.setServers(['1.1.1.1', '8.8.8.8']); // Removed for cloud compatibility
 
 const app = express();
 const PORT = process.env.PORT ?? 3000;

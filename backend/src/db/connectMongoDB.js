@@ -4,7 +4,11 @@ import { Note } from '../models/note.js';
 export const connectMongoDB = async () => {
   try {
     const mongoUrl = process.env.MONGO_URL;
+    if (!mongoUrl) {
+      throw new Error('MONGO_URL environment variable is not defined');
+    }
     await mongoose.connect(mongoUrl);
+
     await Note.syncIndexes();
     console.log('MongoDB connection established successfully');
   } catch (error) {
