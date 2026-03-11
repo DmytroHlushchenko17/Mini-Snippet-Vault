@@ -8,7 +8,16 @@ import type {
 import axios from 'axios';
 
 const url = process.env.NEXT_PUBLIC_BASE_URL;
-const api = axios.create({ baseURL: url });
+
+if (!url && process.env.NODE_ENV === 'production') {
+  console.warn('Warning: NEXT_PUBLIC_BASE_URL is not defined. API calls will likely fail.');
+}
+
+const api = axios.create({ 
+  baseURL: url || 'http://localhost:5000', // Fallback for local dev/build safety
+  timeout: 10000 
+});
+
 
 export type NoteCreate = {
   title: string;

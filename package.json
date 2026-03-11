@@ -14,7 +14,10 @@
     "start:frontend": "npm run start -w frontend",
     "start:backend": "npm run start -w backend",
     "build:shared": "npm run build -w shared",
+    "build:frontend": "npm run build:shared && npm run build -w frontend",
+    "build": "npm run build --workspaces --if-present",
     "lint": "npm run lint --workspaces --if-present"
+
   },
   "devDependencies": {
     "concurrently": "^9.2.1"
